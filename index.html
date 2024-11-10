@@ -84,22 +84,39 @@
         }
         /* Mobile menu styles */
         @media (max-width: 768px) {
-            .mobile-menu-btn {
-                display: block;
-            }
             .nav-menu {
-                display: none;
-                position: absolute;
-                top: 60px;
-                left: 0;
-                right: 0;
-                background: inherit;
-                padding: 20px;
-                box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+                width: 100%;
+                background-color: white;
+                transition: all 0.3s ease-in-out;
             }
-            .nav-menu.active {
+
+            .nav-menu ul {
+                padding: 1rem;
+            }
+
+            .nav-menu li {
+                margin-bottom: 0.5rem;
+            }
+
+            .nav-menu a {
                 display: block;
+                padding: 0.5rem 1rem;
             }
+
+            /* Dark theme compatibility */
+            body.dark-theme .nav-menu {
+                background-color: #1a1a1a;
+            }
+
+            body.dark-theme .nav-menu a {
+                color: white;
+            }
+        }
+
+        .mobile-menu-btn {
+            border: none;
+            background: none;
+            cursor: pointer;
         }
         /* Control Panel Container */
         .control-panel {
@@ -855,5 +872,37 @@
 
   <!-- Add toast container -->
   <div id="mode-toast" class="fixed bottom-4 right-4 bg-gray-800 text-white px-4 py-2 rounded-lg hidden"></div>
+
+  <script>
+   document.addEventListener('DOMContentLoaded', () => {
+     const menuBtn = document.querySelector('.mobile-menu-btn');
+     const navMenu = document.querySelector('.nav-menu');
+
+     menuBtn.addEventListener('click', () => {
+       // Toggle the menu
+       navMenu.classList.toggle('hidden');
+       
+       // Optional: Animate the hamburger icon
+       const hamburger = menuBtn.querySelector('.hamburger');
+       hamburger.classList.toggle('active');
+     });
+
+     // Close menu when clicking outside
+     document.addEventListener('click', (e) => {
+       if (!navMenu.contains(e.target) && !menuBtn.contains(e.target)) {
+         navMenu.classList.add('hidden');
+       }
+     });
+
+     // Handle window resize
+     window.addEventListener('resize', () => {
+       if (window.innerWidth >= 768) {
+         navMenu.classList.remove('hidden');
+       } else {
+         navMenu.classList.add('hidden');
+       }
+     });
+   });
+  </script>
  </body>
 </html>
