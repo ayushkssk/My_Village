@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Village Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <!-- Add TinyMCE for rich text editing -->
+    <script src="https://cdn.tiny.cloud/1/YOUR_API_KEY/tinymce/5/tinymce.min.js"></script>
+</head>
+<body class="bg-gray-100">
+    <div class="flex">
+        <!-- Sidebar -->
+        <div class="w-64 bg-white h-screen shadow-md overflow-y-auto">
+            <div class="p-4 flex items-center">
+                <img src="village-logo.png" alt="Village Logo" class="w-10 h-10 rounded-full"/>
+                <span class="ml-2 text-xl font-bold">Village Admin</span>
+            </div>
+            <div class="p-4">
+                <div class="flex items-center mb-4">
+                    <img src="admin-avatar.png" alt="Admin" class="w-10 h-10 rounded-full"/>
+                    <span class="ml-2 text-blue-600">Administrator</span>
+                </div>
+                <ul>
+                    <!-- Content Management -->
+                    <li class="mb-4">
+                        <span class="block text-gray-500 font-semibold mb-2">Content</span>
+                        <ul class="pl-2">
+                            <li class="mb-2">
+                                <a href="#" class="flex items-center text-gray-700 hover:text-blue-600" onclick="showSection('blog')">
+                                    <i class="fas fa-blog mr-2"></i>
+                                    Blog Posts
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="#" class="flex items-center text-gray-700 hover:text-blue-600" onclick="showSection('news')">
+                                    <i class="fas fa-newspaper mr-2"></i>
+                                    News & Updates
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <!-- Events Management -->
+                    <li class="mb-4">
+                        <span class="block text-gray-500 font-semibold mb-2">Events</span>
+                        <ul class="pl-2">
+                            <li class="mb-2">
+                                <a href="#" class="flex items-center text-gray-700 hover:text-blue-600" onclick="showSection('upcoming-events')">
+                                    <i class="fas fa-calendar-alt mr-2"></i>
+                                    Upcoming Events
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="#" class="flex items-center text-gray-700 hover:text-blue-600" onclick="showSection('past-events')">
+                                    <i class="fas fa-history mr-2"></i>
+                                    Past Events
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <!-- Media Management -->
+                    <li class="mb-4">
+                        <span class="block text-gray-500 font-semibold mb-2">Media</span>
+                        <ul class="pl-2">
+                            <li class="mb-2">
+                                <a href="#" class="flex items-center text-gray-700 hover:text-blue-600" onclick="showSection('gallery')">
+                                    <i class="fas fa-images mr-2"></i>
+                                    Gallery
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="#" class="flex items-center text-gray-700 hover:text-blue-600" onclick="showSection('media-library')">
+                                    <i class="fas fa-photo-video mr-2"></i>
+                                    Media Library
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <!-- Contact Management -->
+                    <li class="mb-4">
+                        <span class="block text-gray-500 font-semibold mb-2">Contacts</span>
+                        <ul class="pl-2">
+                            <li class="mb-2">
+                                <a href="#" class="flex items-center text-gray-700 hover:text-blue-600" onclick="showSection('directory')">
+                                    <i class="fas fa-address-book mr-2"></i>
+                                    Directory
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="#" class="flex items-center text-gray-700 hover:text-blue-600" onclick="showSection('social-media')">
+                                    <i class="fas fa-share-alt mr-2"></i>
+                                    Social Media
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <!-- Notable People -->
+                    <li class="mb-4">
+                        <a href="#" class="flex items-center text-gray-700 hover:text-blue-600" onclick="showSection('notable-people')">
+                            <i class="fas fa-user-tie mr-2"></i>
+                            Notable People
+                        </a>
+                    </li>
+
+                    <!-- Settings -->
+                    <li class="mb-4">
+                        <a href="#" class="flex items-center text-gray-700 hover:text-blue-600" onclick="showSection('settings')">
+                            <i class="fas fa-cog mr-2"></i>
+                            Settings
+                        </a>
+                    </li>
+
+                    <!-- Logout -->
+                    <li class="mb-2">
+                        <a href="#" class="flex items-center text-red-600 hover:text-red-800" onclick="logout()">
+                            <i class="fas fa-sign-out-alt mr-2"></i>
+                            Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="flex-1 p-6 overflow-y-auto" id="mainContent">
+            <!-- Dynamic content will be loaded here -->
+            <div class="welcome-screen">
+                <h1 class="text-3xl font-bold mb-4">Welcome to Village Admin Dashboard</h1>
+                <p class="text-gray-600">Select a section from the sidebar to get started.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed top-4 right-4 px-4 py-2 rounded-lg text-white transform transition-transform duration-300 translate-y-[-100px]">
+    </div>
+
+    <!-- Add this modal HTML at the end of your body tag -->
+    <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white w-full max-w-md p-6 rounded-lg shadow-xl">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-bold text-gray-800">Admin Login</h2>
+                <button onclick="toggleLoginModal(false)" class="text-gray-600 hover:text-gray-800">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="adminLoginForm" class="space-y-4">
+                <div>
+                    <label class="block text-gray-700 mb-2">Username</label>
+                    <input type="text" id="adminUsername" 
+                           class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 outline-none"
+                           required>
+                </div>
+                <div>
+                    <label class="block text-gray-700 mb-2">Password</label>
+                    <div class="relative">
+                        <input type="password" id="adminPassword" 
+                               class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 outline-none"
+                               required>
+                        <button type="button" onclick="togglePasswordVisibility()"
+                                class="absolute right-2 top-1/2 transform -translate-y-1/2">
+                            <i id="passwordToggleIcon" class="fas fa-eye text-gray-500"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <input type="checkbox" id="rememberAdmin" class="rounded border-gray-300">
+                    <label for="rememberAdmin" class="ml-2 text-gray-700">Remember me</label>
+                </div>
+                <button type="submit" 
+                        class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition-colors">
+                    Login
+                </button>
+            </form>
+            <div id="loginError" class="mt-4 text-red-500 text-center hidden"></div>
+        </div>
+    </div>
+
+    <!-- Update your floating button HTML -->
+    <div class="control-panel">
+        <button class="theme-toggle">
+            <i class="fas fa-sun text-2xl" id="theme-icon"></i>
+        </button>
+        <button id="adminToggle" class="floating-button" onclick="handleAdminClick()">
+            <i class="fas fa-home"></i>
+        </button>
+    </div>
+
+    <script>
+        // Initialize TinyMCE
+        tinymce.init({
+            selector: '.rich-text-editor',
+            plugins: 'link image code',
+            toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | link image | code'
+        });
+
+        // Show different sections
+        function showSection(sectionName) {
+            const mainContent = document.getElementById('mainContent');
+            
+            // Load content based on section
+            switch(sectionName) {
+                case 'blog':
+                    loadBlogSection();
+                    break;
+                case 'upcoming-events':
+                    loadUpcomingEvents();
+                    break;
+                // Add more cases for other sections
+            }
+        }
+
+        // Toast notification
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = `fixed top-4 right-4 px-4 py-2 rounded-lg text-white transform transition-transform duration-300 ${
+                type === 'success' ? 'bg-green-500' : 'bg-red-500'
+            }`;
+            
+            // Show toast
+            setTimeout(() => {
+                toast.style.transform = 'translateY(0)';
+            }, 100);
+
+            // Hide toast
+            setTimeout(() => {
+                toast.style.transform = 'translateY(-100px)';
+            }, 3000);
+        }
+
+        // Logout function
+        function logout() {
+            // Add logout logic here
+            window.location.href = 'login.html';
+        }
+
+        // Example function to load blog section
+        function loadBlogSection() {
+            const mainContent = document.getElementById('mainContent');
+            mainContent.innerHTML = `
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-2xl font-bold mb-4">Blog Posts</h2>
+                    <button onclick="showAddBlogForm()" class="bg-blue-500 text-white px-4 py-2 rounded mb-4">
+                        <i class="fas fa-plus mr-2"></i>Add New Post
+                    </button>
+                    <div id="blogList">
+                        <!-- Blog posts will be loaded here -->
+                    </div>
+                </div>
+            `;
+            loadBlogPosts();
+        }
+
+        // Continue with more functions...
+
+        // Check authentication
+        function checkAuth() {
+            if (localStorage.getItem('adminLoggedIn') !== 'true' && 
+                sessionStorage.getItem('adminLoggedIn') !== 'true') {
+                window.location.href = 'admin-login.html';
+            }
+        }
+
+        // Check on page load
+        checkAuth();
+
+        // Check periodically
+        setInterval(checkAuth, 5000);
+
+        // Add to your existing JavaScript
+        let isAdminMode = false;
+        let isLoggedIn = false;
+
+        // Check initial login state
+        function checkLoginState() {
+            return localStorage.getItem('adminLoggedIn') === 'true' || 
+                   sessionStorage.getItem('adminLoggedIn') === 'true';
+        }
+
+        // Toggle login modal
+        function toggleLoginModal(show) {
+            const modal = document.getElementById('loginModal');
+            modal.style.display = show ? 'flex' : 'none';
+            if (!show) {
+                document.getElementById('adminLoginForm').reset();
+                document.getElementById('loginError').classList.add('hidden');
+            }
+        }
+
+        // Toggle password visibility
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('adminPassword');
+            const icon = document.getElementById('passwordToggleIcon');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+
+        // Handle admin button click
+        function handleAdminClick() {
+            isLoggedIn = checkLoginState();
+            
+            if (!isLoggedIn) {
+                toggleLoginModal(true);
+                return;
+            }
+
+            toggleAdminMode();
+        }
+
+        // Toggle admin mode
+        function toggleAdminMode() {
+            const adminToggle = document.getElementById('adminToggle');
+            const icon = adminToggle.querySelector('i');
+            
+            isAdminMode = !isAdminMode;
+            
+            if (isAdminMode) {
+                icon.classList.remove('fa-home');
+                icon.classList.add('fa-user-cog');
+                adminToggle.classList.add('admin');
+                showToast('Switched to Admin Mode');
+                // Load admin interface
+                loadAdminInterface();
+            } else {
+                icon.classList.remove('fa-user-cog');
+                icon.classList.add('fa-home');
+                adminToggle.classList.remove('admin');
+                showToast('Switched to Home Mode');
+                // Load normal interface
+                loadHomeInterface();
+            }
+        }
+
+        // Initialize login form handling
+        document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('adminUsername').value;
+            const password = document.getElementById('adminPassword').value;
+            const remember = document.getElementById('rememberAdmin').checked;
+            const errorDiv = document.getElementById('loginError');
+
+            // Check credentials
+            if (username === 'ayush' && password === 'ayush') {
+                if (remember) {
+                    localStorage.setItem('adminLoggedIn', 'true');
+                } else {
+                    sessionStorage.setItem('adminLoggedIn', 'true');
+                }
+                
+                isLoggedIn = true;
+                toggleLoginModal(false);
+                toggleAdminMode();
+                showToast('Login successful!', 'success');
+            } else {
+                errorDiv.textContent = 'Invalid username or password';
+                errorDiv.classList.remove('hidden');
+                // Shake animation
+                e.target.classList.add('shake');
+                setTimeout(() => e.target.classList.remove('shake'), 500);
+            }
+        });
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem('adminLoggedIn');
+            sessionStorage.removeItem('adminLoggedIn');
+            isLoggedIn = false;
+            isAdminMode = false;
+            
+            // Reset UI
+            const adminToggle = document.getElementById('adminToggle');
+            const icon = adminToggle.querySelector('i');
+            icon.classList.remove('fa-user-cog');
+            icon.classList.add('fa-home');
+            adminToggle.classList.remove('admin');
+            
+            // Load home interface
+            loadHomeInterface();
+            showToast('Logged out successfully');
+        }
+
+        // Show toast notification
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `fixed bottom-4 right-4 px-4 py-2 rounded text-white ${
+                type === 'success' ? 'bg-green-500' : 
+                type === 'error' ? 'bg-red-500' : 
+                'bg-blue-500'
+            } transition-opacity duration-300`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 300);
+            }, 2000);
+        }
+
+        // Load admin interface
+        function loadAdminInterface() {
+            // Add your admin interface loading logic here
+            console.log('Loading admin interface...');
+        }
+
+        // Load home interface
+        function loadHomeInterface() {
+            // Add your home interface loading logic here
+            console.log('Loading home interface...');
+        }
+
+        // Add some CSS for animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-10px); }
+                75% { transform: translateX(10px); }
+            }
+            .shake {
+                animation: shake 0.5s ease-in-out;
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Check login state on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            isLoggedIn = checkLoginState();
+            if (isLoggedIn) {
+                showToast('Welcome back, admin!', 'success');
+            }
+        });
+    </script>
+</body>
+</html>

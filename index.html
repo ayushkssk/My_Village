@@ -1,47 +1,859 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>my village</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-</head>
-<body>
-    <!-- header with navigation -->
-    <header>
-        <nav class="navbar">
-            <div class="logo">
-                <h1>village name</h1>
-            </div>
-            <ul class="nav-menu">
-                <li><a href="index.html">home</a></li>
-                <li class="dropdown">
-                    <a href="#">about ▼</a>
-                    <ul class="dropdown-content">
-                        <li><a href="history.html">history</a></li>
-                        <li><a href="development.html">development</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a href="#">gallery ▼</a>
-                    <ul class="dropdown-content">
-                        <li><a href="photos.html">photos</a></li>
-                        <li><a href="events.html">events</a></li>
-                    </ul>
-                </li>
-                <li><a href="important-persons.html">notable people</a></li>
-                <li><a href="creativity.html">creativity</a></li>
-                <li><a href="blog.html">news & updates</a></li>
-                <li class="dropdown">
-                    <a href="#">connect ▼</a>
-                    <ul class="dropdown-content">
-                        <li><a href="contact.html">contact directory</a></li>
-                        <li><a href="social-media.html">social media</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </nav>
-    </header>
-</body>
-</html> 
+<html>
+ <head>
+  <title>
+   Village Events and Celebrations
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet"/>
+  <style>
+   body {
+            font-family: 'Roboto', sans-serif;
+            transition: all 0.3s ease;
+        }
+        /* Dark theme styles */
+        body.dark-theme {
+            background-color: #1a1a1a;
+            color: #ffffff;
+        }
+        body.dark-theme .bg-gray-100 {
+            background-color: #2d2d2d;
+        }
+        body.dark-theme .bg-white {
+            background-color: #333333;
+        }
+        body.dark-theme .text-gray-700 {
+            color: #e0e0e0;
+        }
+        body.dark-theme .card {
+            background-color: #333333;
+            color: #ffffff;
+        }
+        /* Updated Floating Button Styles */
+        .floating-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .floating-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+        .floating-button i {
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        .floating-button.admin {
+            background: #2196F3;
+        }
+        /* Animation for icon switch */
+        .floating-button.switching i {
+            transform: rotate(180deg);
+        }
+        /* Toast Notification Style */
+        .toast {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 4px;
+            display: none;
+            animation: fadeInOut 2s ease;
+        }
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateY(20px); }
+            20% { opacity: 1; transform: translateY(0); }
+            80% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(-20px); }
+        }
+        /* Mobile menu styles */
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                right: 0;
+                background: inherit;
+                padding: 20px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            }
+            .nav-menu.active {
+                display: block;
+            }
+        }
+        /* Control Panel Container */
+        .control-panel {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        /* Floating Button */
+        .floating-button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .floating-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .floating-button i {
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .floating-button.admin {
+            background: #2196F3;
+        }
+
+        /* Add these to your existing styles */
+        .switching {
+            transform: rotate(180deg);
+            transition: transform 0.3s ease;
+        }
+
+        #mode-toast {
+            animation: fadeInOut 2s ease;
+            z-index: 1000;
+        }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateY(20px); }
+            20% { opacity: 1; transform: translateY(0); }
+            80% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(-20px); }
+        }
+  </style>
+ </head>
+ <body>
+  <nav class="bg-gray-100 p-4">
+   <div class="container mx-auto flex justify-between items-center">
+    <a class="text-xl font-bold" href="#">
+     Village Events
+    </a>
+    <div class="flex space-x-4">
+     <div class="relative group">
+      <button class="text-gray-700 hover:text-gray-900">
+       Home
+      </button>
+     </div>
+     <div class="relative group">
+      <button class="text-gray-700 hover:text-gray-900">
+       Events
+      </button>
+      <div class="absolute hidden group-hover:block bg-white shadow-lg mt-2 rounded">
+       <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="#">
+        Upcoming Events
+       </a>
+       <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="#">
+        Past Events
+       </a>
+      </div>
+     </div>
+     <div class="relative group">
+      <button class="text-gray-700 hover:text-gray-900">
+       Gallery
+      </button>
+      <div class="absolute hidden group-hover:block bg-white shadow-lg mt-2 rounded">
+       <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="#">
+        Festivals
+       </a>
+       <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="#">
+        Celebrations
+       </a>
+       <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="#">
+        Events
+       </a>
+      </div>
+     </div>
+     <div class="relative group">
+      <button class="text-gray-700 hover:text-gray-900">
+       Contact
+      </button>
+      <div class="absolute hidden group-hover:block bg-white shadow-lg mt-2 rounded">
+       <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="#">
+        Contact Us
+       </a>
+       <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="#">
+        Social Media
+       </a>
+      </div>
+     </div>
+     <div class="relative group">
+      <button class="text-gray-700 hover:text-gray-900">
+       People
+      </button>
+      <div class="absolute hidden group-hover:block bg-white shadow-lg mt-2 rounded">
+       <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="#">
+        Creators
+       </a>
+       <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="#">
+        Notable Persons
+       </a>
+      </div>
+     </div>
+    </div>
+   </div>
+  </nav>
+  <button class="floating-button">
+   <i class="fas fa-home"></i>
+  </button>
+  <div class="toast" id="mode-toast"></div>
+  <div class="container mx-auto mt-10">
+   <h1 class="text-center text-3xl font-bold mb-6">
+    Upcoming Events and Celebrations
+   </h1>
+   <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="card event-card bg-white shadow-lg rounded-lg overflow-hidden">
+     <img alt="Image of a colorful village festival with people dancing and celebrating" class="w-full" height="400" src="https://storage.googleapis.com/a1aa/image/SS6Kg6XpSAYSGJeOOiRjgDNEDVRn5mr7AVfTdKOJsz9RzovTA.jpg" width="600"/>
+     <div class="p-4">
+      <h5 class="text-xl font-bold">
+       Harvest Festival
+      </h5>
+      <p class="text-gray-700">
+       Date: October 15, 2023
+      </p>
+      <p class="text-gray-700">
+       Join us for a celebration of the harvest season with music, dance, and traditional foods.
+      </p>
+     </div>
+    </div>
+    <div class="card event-card bg-white shadow-lg rounded-lg overflow-hidden">
+     <img alt="Image of a village fair with various stalls and people enjoying rides" class="w-full" height="400" src="https://storage.googleapis.com/a1aa/image/Ul7ctXdWnIKaBxSeOsYx3vCI9LlApDJZt44CwVhW7x2uZ03JA.jpg" width="600"/>
+     <div class="p-4">
+      <h5 class="text-xl font-bold">
+       Village Fair
+      </h5>
+      <p class="text-gray-700">
+       Date: November 20, 2023
+      </p>
+      <p class="text-gray-700">
+       Experience the joy of our annual village fair with games, rides, and local crafts.
+      </p>
+     </div>
+    </div>
+    <div class="card event-card bg-white shadow-lg rounded-lg overflow-hidden">
+     <img alt="Image of a traditional village wedding with colorful decorations and people in traditional attire" class="w-full" height="400" src="https://storage.googleapis.com/a1aa/image/BftV8hVxo6VekUiiuPBgoeG1D2LxqFuqlgxfMdz4Hwa8NjedC.jpg" width="600"/>
+     <div class="p-4">
+      <h5 class="text-xl font-bold">
+       Traditional Wedding
+      </h5>
+      <p class="text-gray-700">
+       Date: December 5, 2023
+      </p>
+      <p class="text-gray-700">
+       Witness the beauty of a traditional village wedding with cultural rituals and festivities.
+      </p>
+     </div>
+    </div>
+   </div>
+  </div>
+  <div class="container mx-auto mt-10">
+   <h1 class="text-center text-3xl font-bold mb-6">
+    Gallery
+   </h1>
+   <div class="text-center mb-6">
+    <button class="btn btn-primary filter-btn bg-blue-500 text-white px-4 py-2 rounded" data-filter="all">
+     All
+    </button>
+    <button class="btn btn-secondary filter-btn bg-gray-500 text-white px-4 py-2 rounded" data-filter="festival">
+     Festivals
+    </button>
+    <button class="btn btn-secondary filter-btn bg-gray-500 text-white px-4 py-2 rounded" data-filter="celebration">
+     Celebrations
+    </button>
+    <button class="btn btn-secondary filter-btn bg-gray-500 text-white px-4 py-2 rounded" data-filter="event">
+     Events
+    </button>
+   </div>
+   <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="filter festival">
+     <img alt="Image of a colorful festival with people dancing and celebrating" class="w-full" height="400" src="https://storage.googleapis.com/a1aa/image/iumqABHjvF4hDN0SyltFokrZvKfl0L6sGmH6Oh6I3e3VzovTA.jpg" width="600"/>
+    </div>
+    <div class="filter celebration">
+     <img alt="Image of a village celebration with people enjoying traditional music and dance" class="w-full" height="400" src="https://storage.googleapis.com/a1aa/image/tqkkPxhhqkLaAV5TlwYz18nda7UqhIUT3GXe8ylGOdatZ03JA.jpg" width="600"/>
+    </div>
+    <div class="filter event">
+     <img alt="Image of a village event with a large gathering of people" class="w-full" height="400" src="https://storage.googleapis.com/a1aa/image/KKrnCVUK2Dp7G5J5aKrIUZVw3SQVweKgn8d7htflL58YzovTA.jpg" width="600"/>
+    </div>
+    <div class="filter festival">
+     <img alt="Image of a festival with colorful decorations and lights" class="w-full" height="400" src="https://storage.googleapis.com/a1aa/image/T9DSABz8NMJjABWjotaiqahyqfWfJRVuOWeIWdaemJrcNjedC.jpg" width="600"/>
+    </div>
+    <div class="filter celebration">
+     <img alt="Image of a celebration with people in traditional attire" class="w-full" height="400" src="https://storage.googleapis.com/a1aa/image/g8YKw5lNffpuWkKxWUNcXyFUiE8tB2xdDee1oHuoN0faaG9dC.jpg" width="600"/>
+    </div>
+    <div class="filter event">
+     <img alt="Image of an event with a stage and performers" class="w-full" height="400" src="https://storage.googleapis.com/a1aa/image/mUc7iwQSDEZ9KpR3fgghfyBjVu1cyUvokcqQX1tDobJczovTA.jpg" width="600"/>
+    </div>
+   </div>
+  </div>
+  <footer class="bg-gray-100 text-center py-4 mt-10">
+   <p>
+    © 2023 Village Events. All rights reserved.
+   </p>
+  </footer>
+  <script>
+   document.querySelectorAll('.filter-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const filter = button.getAttribute('data-filter');
+                document.querySelectorAll('.filter').forEach(item => {
+                    if (filter === 'all' || item.classList.contains(filter)) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+   // Floating Button Toggle
+   const floatingButton = document.querySelector('.floating-button');
+   const buttonIcon = floatingButton.querySelector('i');
+   const toast = document.getElementById('mode-toast');
+   let isAdmin = false;
+
+   function showToast(message) {
+       toast.textContent = message;
+       toast.style.display = 'block';
+       
+       // Reset animation
+       toast.style.animation = 'none';
+       toast.offsetHeight; // Trigger reflow
+       toast.style.animation = 'fadeInOut 2s ease';
+       
+       setTimeout(() => {
+           toast.style.display = 'none';
+       }, 2000);
+   }
+
+   floatingButton.addEventListener('click', () => {
+       // Add switching class for rotation animation
+       buttonIcon.classList.add('switching');
+       
+       setTimeout(() => {
+           isAdmin = !isAdmin;
+           
+           if (isAdmin) {
+               buttonIcon.classList.remove('fa-home');
+               buttonIcon.classList.add('fa-user-cog');
+               floatingButton.classList.add('admin');
+               showToast('Switched to Admin Mode');
+           } else {
+               buttonIcon.classList.remove('fa-user-cog');
+               buttonIcon.classList.add('fa-home');
+               floatingButton.classList.remove('admin');
+               showToast('Switched to Home Mode');
+           }
+           
+           // Remove switching class after animation
+           buttonIcon.classList.remove('switching');
+       }, 150);
+   });
+
+   // Mobile Menu Toggle
+   const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+   const navMenu = document.querySelector('.nav-menu');
+   
+   mobileMenuBtn.addEventListener('click', () => {
+       navMenu.classList.toggle('active');
+       const icon = mobileMenuBtn.querySelector('i');
+       icon.classList.toggle('fa-bars');
+       icon.classList.toggle('fa-times');
+   });
+  </script>
+  <script>
+   const adminFunctions = {
+       // Blog Management
+       loadBlogSection() {
+           const mainContent = document.getElementById('mainContent');
+           mainContent.innerHTML = `
+               <div class="bg-white p-6 rounded-lg shadow-md">
+                   <h2 class="text-2xl font-bold mb-4">Blog Posts</h2>
+                   <div class="flex gap-4 mb-6">
+                       <button onclick="adminFunctions.showAddBlogForm()" 
+                               class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+                           <i class="fas fa-plus mr-2"></i>New Post
+                       </button>
+                       <button onclick="adminFunctions.showBlogCategories()" 
+                               class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">
+                           <i class="fas fa-tags mr-2"></i>Categories
+                       </button>
+                   </div>
+                   <div id="blogList" class="space-y-4">
+                       ${this.getBlogPosts()}
+                   </div>
+               </div>
+           `;
+       },
+
+       // Events Management
+       loadEventsSection() {
+           const mainContent = document.getElementById('mainContent');
+           mainContent.innerHTML = `
+               <div class="bg-white p-6 rounded-lg shadow-md">
+                   <h2 class="text-2xl font-bold mb-4">Event Management</h2>
+                   <div class="flex gap-4 mb-6">
+                       <button onclick="adminFunctions.showAddEventForm()" 
+                               class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+                           <i class="fas fa-plus mr-2"></i>New Event
+                       </button>
+                       <button onclick="adminFunctions.showEventCalendar()" 
+                               class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">
+                           <i class="fas fa-calendar mr-2"></i>Calendar View
+                       </button>
+                   </div>
+                   <div class="grid grid-cols-2 gap-4">
+                       <div class="border p-4 rounded">
+                           <h3 class="text-lg font-semibold mb-3">Upcoming Events</h3>
+                           <div id="upcomingEventsList" class="space-y-2">
+                               ${this.getUpcomingEvents()}
+                           </div>
+                       </div>
+                       <div class="border p-4 rounded">
+                           <h3 class="text-lg font-semibold mb-3">Past Events</h3>
+                           <div id="pastEventsList" class="space-y-2">
+                               ${this.getPastEvents()}
+                           </div>
+                       </div>
+                   </div>
+               </div>
+           `;
+       },
+
+       // Gallery Management
+       loadGallerySection() {
+           const mainContent = document.getElementById('mainContent');
+           mainContent.innerHTML = `
+               <div class="bg-white p-6 rounded-lg shadow-md">
+                   <h2 class="text-2xl font-bold mb-4">Gallery Management</h2>
+                   <div class="flex gap-4 mb-6">
+                       <button onclick="adminFunctions.showUploadMedia()" 
+                               class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+                           <i class="fas fa-upload mr-2"></i>Upload Media
+                       </button>
+                       <button onclick="adminFunctions.showGalleryCategories()" 
+                               class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">
+                           <i class="fas fa-folders mr-2"></i>Categories
+                       </button>
+                   </div>
+                   <div id="galleryGrid" class="grid grid-cols-4 gap-4">
+                       ${this.getGalleryItems()}
+                   </div>
+               </div>
+           `;
+       },
+
+       // Contact Directory Management
+       loadContactSection() {
+           const mainContent = document.getElementById('mainContent');
+           mainContent.innerHTML = `
+               <div class="bg-white p-6 rounded-lg shadow-md">
+                   <h2 class="text-2xl font-bold mb-4">Contact Directory</h2>
+                   <div class="flex gap-4 mb-6">
+                       <button onclick="adminFunctions.showAddContact()" 
+                               class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+                           <i class="fas fa-user-plus mr-2"></i>Add Contact
+                       </button>
+                       <button onclick="adminFunctions.importContacts()" 
+                               class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">
+                           <i class="fas fa-file-import mr-2"></i>Import
+                       </button>
+                       <button onclick="adminFunctions.exportContacts()" 
+                               class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded">
+                           <i class="fas fa-file-export mr-2"></i>Export
+                       </button>
+                   </div>
+                   <div id="contactsList" class="space-y-2">
+                       ${this.getContacts()}
+                   </div>
+               </div>
+           `;
+       },
+
+       // Form Handlers
+       showAddBlogForm() {
+           const form = `
+               <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+                   <div class="bg-white p-6 rounded-lg w-2/3 max-h-[80vh] overflow-y-auto">
+                       <h3 class="text-xl font-bold mb-4">Add New Blog Post</h3>
+                       <form onsubmit="adminFunctions.handleBlogSubmit(event)" class="space-y-4">
+                           <div>
+                               <label class="block text-sm font-medium mb-1">Title</label>
+                               <input type="text" name="title" required
+                                      class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                           </div>
+                           <div>
+                               <label class="block text-sm font-medium mb-1">Content</label>
+                               <textarea name="content" class="rich-text-editor"></textarea>
+                           </div>
+                           <div>
+                               <label class="block text-sm font-medium mb-1">Featured Image</label>
+                               <input type="file" name="image" accept="image/*"
+                                      class="w-full p-2 border rounded">
+                           </div>
+                           <div class="flex justify-end gap-2">
+                               <button type="button" onclick="this.closest('.fixed').remove()"
+                                       class="px-4 py-2 text-gray-600 hover:text-gray-800">
+                                   Cancel
+                               </button>
+                               <button type="submit"
+                                       class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                                   Publish
+                               </button>
+                           </div>
+                       </form>
+                   </div>
+               </div>
+           `;
+           document.body.insertAdjacentHTML('beforeend', form);
+           // Initialize TinyMCE for the new textarea
+           tinymce.init({
+               selector: '.rich-text-editor',
+               // ... your TinyMCE config
+           });
+       },
+
+       // ... Add more form handlers for other sections ...
+
+       // Utility Functions
+       showToast(message, type = 'success') {
+           const toast = document.createElement('div');
+           toast.className = `fixed top-4 right-4 px-4 py-2 rounded text-white ${
+               type === 'success' ? 'bg-green-500' : 'bg-red-500'
+           }`;
+           toast.textContent = message;
+           document.body.appendChild(toast);
+           setTimeout(() => toast.remove(), 3000);
+       },
+
+       // Data Handlers
+       async handleBlogSubmit(event) {
+           event.preventDefault();
+           try {
+               const formData = new FormData(event.target);
+               // Add API call here
+               await fetch('/api/blog/create', {
+                   method: 'POST',
+                   body: formData
+               });
+               this.showToast('Blog post published successfully!');
+               this.loadBlogSection();
+           } catch (error) {
+               this.showToast('Error publishing blog post', 'error');
+           }
+       },
+
+       // Mock Data Getters (Replace with actual API calls)
+       getBlogPosts() {
+           return `
+               <div class="border p-4 rounded hover:bg-gray-50">
+                   <h3 class="font-semibold">Sample Blog Post</h3>
+                   <p class="text-gray-600">Posted on: 2024-03-13</p>
+               </div>
+           `;
+       },
+
+       getUpcomingEvents() {
+           return `
+               <div class="border p-2 rounded hover:bg-gray-50">
+                   <h4 class="font-semibold">Sample Upcoming Event</h4>
+                   <p class="text-sm text-gray-600">Date: 2024-03-20</p>
+               </div>
+           `;
+       }
+
+       // ... Add more getters for other data types ...
+   };
+
+   // Update your existing showSection function
+   function showSection(sectionName) {
+       switch(sectionName) {
+           case 'blog':
+               adminFunctions.loadBlogSection();
+               break;
+           case 'upcoming-events':
+           case 'past-events':
+               adminFunctions.loadEventsSection();
+               break;
+           case 'gallery':
+               adminFunctions.loadGallerySection();
+               break;
+           case 'directory':
+               adminFunctions.loadContactSection();
+               break;
+           // Add more cases as needed
+       }
+   }
+  </script>
+  <script>
+   let isAdminMode = false;
+   let isLoggedIn = false;
+
+   // Check initial login state
+   function checkLoginState() {
+       return localStorage.getItem('adminLoggedIn') === 'true' || 
+              sessionStorage.getItem('adminLoggedIn') === 'true';
+   }
+
+   // Toggle login modal
+   function toggleLoginModal(show) {
+       const modal = document.getElementById('loginModal');
+       modal.style.display = show ? 'flex' : 'none';
+       if (!show) {
+           document.getElementById('adminLoginForm').reset();
+           document.getElementById('loginError').classList.add('hidden');
+       }
+   }
+
+   // Toggle password visibility
+   function togglePasswordVisibility() {
+       const passwordInput = document.getElementById('adminPassword');
+       const icon = document.getElementById('passwordToggleIcon');
+       if (passwordInput.type === 'password') {
+           passwordInput.type = 'text';
+           icon.classList.replace('fa-eye', 'fa-eye-slash');
+       } else {
+           passwordInput.type = 'password';
+           icon.classList.replace('fa-eye-slash', 'fa-eye');
+       }
+   }
+
+   // Handle admin button click
+   function handleAdminClick() {
+       window.location.href = 'admin-login.html';
+   }
+
+   // Toggle admin mode
+   function toggleAdminMode() {
+       const adminToggle = document.getElementById('adminToggle');
+       const icon = adminToggle.querySelector('i');
+       
+       isAdminMode = !isAdminMode;
+       
+       if (isAdminMode) {
+           icon.classList.remove('fa-home');
+           icon.classList.add('fa-user-cog');
+           adminToggle.classList.add('admin');
+           showToast('Switched to Admin Mode');
+           // Load admin interface
+           loadAdminInterface();
+       } else {
+           icon.classList.remove('fa-user-cog');
+           icon.classList.add('fa-home');
+           adminToggle.classList.remove('admin');
+           showToast('Switched to Home Mode');
+           // Load normal interface
+           loadHomeInterface();
+       }
+   }
+
+   // Initialize login form handling
+   document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
+       e.preventDefault();
+       const username = document.getElementById('adminUsername').value;
+       const password = document.getElementById('adminPassword').value;
+       const remember = document.getElementById('rememberAdmin').checked;
+       const errorDiv = document.getElementById('loginError');
+
+       // Check credentials
+       if (username === 'ayush' && password === 'ayush') {
+           if (remember) {
+               localStorage.setItem('adminLoggedIn', 'true');
+           } else {
+               sessionStorage.setItem('adminLoggedIn', 'true');
+           }
+           
+           isLoggedIn = true;
+           toggleLoginModal(false);
+           toggleAdminMode();
+           showToast('Login successful!', 'success');
+       } else {
+           errorDiv.textContent = 'Invalid username or password';
+           errorDiv.classList.remove('hidden');
+           // Shake animation
+           e.target.classList.add('shake');
+           setTimeout(() => e.target.classList.remove('shake'), 500);
+       }
+   });
+
+   // Logout function
+   function logout() {
+       localStorage.removeItem('adminLoggedIn');
+       sessionStorage.removeItem('adminLoggedIn');
+       isLoggedIn = false;
+       isAdminMode = false;
+       
+       // Reset UI
+       const adminToggle = document.getElementById('adminToggle');
+       const icon = adminToggle.querySelector('i');
+       icon.classList.remove('fa-user-cog');
+       icon.classList.add('fa-home');
+       adminToggle.classList.remove('admin');
+       
+       // Load home interface
+       loadHomeInterface();
+       showToast('Logged out successfully');
+   }
+
+   // Show toast notification
+   function showToast(message, type = 'info') {
+       const toast = document.createElement('div');
+       toast.className = `fixed bottom-4 right-4 px-4 py-2 rounded text-white ${
+           type === 'success' ? 'bg-green-500' : 
+           type === 'error' ? 'bg-red-500' : 
+           'bg-blue-500'
+       } transition-opacity duration-300`;
+       toast.textContent = message;
+       document.body.appendChild(toast);
+       
+       setTimeout(() => {
+           toast.style.opacity = '0';
+           setTimeout(() => toast.remove(), 300);
+       }, 2000);
+   }
+
+   // Load admin interface
+   function loadAdminInterface() {
+       const mainContent = document.querySelector('.container');
+       mainContent.innerHTML = `
+           <div class="bg-white p-6 rounded-lg shadow-md mt-6">
+               <h2 class="text-2xl font-bold mb-6">Admin Dashboard</h2>
+               <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                   <div onclick="showSection('blog')" 
+                        class="p-4 bg-blue-500 text-white rounded-lg cursor-pointer hover:bg-blue-600 transition-colors">
+                       <i class="fas fa-blog text-2xl mb-2"></i>
+                       <h3 class="font-bold">Blog Management</h3>
+                   </div>
+                   <div onclick="showSection('upcoming-events')" 
+                        class="p-4 bg-green-500 text-white rounded-lg cursor-pointer hover:bg-green-600 transition-colors">
+                       <i class="fas fa-calendar text-2xl mb-2"></i>
+                       <h3 class="font-bold">Event Management</h3>
+                   </div>
+                   <div onclick="showSection('gallery')" 
+                        class="p-4 bg-purple-500 text-white rounded-lg cursor-pointer hover:bg-purple-600 transition-colors">
+                       <i class="fas fa-images text-2xl mb-2"></i>
+                       <h3 class="font-bold">Gallery Management</h3>
+                   </div>
+               </div>
+               <div id="mainContent" class="mt-6">
+                   <!-- Section content will be loaded here -->
+               </div>
+           </div>
+       `;
+   }
+
+   // Load home interface
+   function loadHomeInterface() {
+       window.location.reload(); // This will reload the original page content
+   }
+
+   // Add some CSS for animations
+   const style = document.createElement('style');
+   style.textContent = `
+       @keyframes shake {
+           0%, 100% { transform: translateX(0); }
+           25% { transform: translateX(-10px); }
+           75% { transform: translateX(10px); }
+       }
+       .shake {
+           animation: shake 0.5s ease-in-out;
+       }
+   `;
+   document.head.appendChild(style);
+
+   // Check login state on page load
+   document.addEventListener('DOMContentLoaded', () => {
+       isLoggedIn = checkLoginState();
+       if (isLoggedIn) {
+           showToast('Welcome back, admin!', 'success');
+       }
+   });
+  </script>
+  <!-- Add this modal HTML at the end of your body tag -->
+  <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+      <div class="bg-white w-full max-w-md p-6 rounded-lg shadow-xl">
+          <div class="flex justify-between items-center mb-4">
+              <h2 class="text-2xl font-bold text-gray-800">Admin Login</h2>
+              <button onclick="toggleLoginModal(false)" class="text-gray-600 hover:text-gray-800">
+                  <i class="fas fa-times"></i>
+              </button>
+          </div>
+          <form id="adminLoginForm" class="space-y-4">
+              <div>
+                  <label class="block text-gray-700 mb-2">Username</label>
+                  <input type="text" id="adminUsername" 
+                         class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 outline-none"
+                         required>
+              </div>
+              <div>
+                  <label class="block text-gray-700 mb-2">Password</label>
+                  <div class="relative">
+                      <input type="password" id="adminPassword" 
+                             class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 outline-none"
+                             required>
+                      <button type="button" onclick="togglePasswordVisibility()"
+                              class="absolute right-2 top-1/2 transform -translate-y-1/2">
+                          <i id="passwordToggleIcon" class="fas fa-eye text-gray-500"></i>
+                      </button>
+                  </div>
+              </div>
+              <div class="flex items-center">
+                  <input type="checkbox" id="rememberAdmin" class="rounded border-gray-300">
+                  <label for="rememberAdmin" class="ml-2 text-gray-700">Remember me</label>
+              </div>
+              <button type="submit" 
+                      class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition-colors">
+                  Login
+              </button>
+          </form>
+          <div id="loginError" class="mt-4 text-red-500 text-center hidden"></div>
+      </div>
+  </div>
+  <!-- Add this right before the closing body tag -->
+  <div class="control-panel">
+      <button onclick="handleAdminClick()" class="floating-button">
+          <i class="fas fa-user-shield"></i>
+      </button>
+  </div>
+
+  <!-- Add toast container -->
+  <div id="mode-toast" class="fixed bottom-4 right-4 bg-gray-800 text-white px-4 py-2 rounded-lg hidden"></div>
+ </body>
+</html>
